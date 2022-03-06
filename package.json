@@ -1,0 +1,30 @@
+{
+  "name": "home_api",
+  "version": "0.0.1",
+  "description": "API for Home Automation stuff",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poLLi/Home_API.git"
+  },
+  "author": "PoLLi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/poLLi/Home_API/issues"
+  },
+  "homepage": "https://github.com/poLLi/Home_API#readme",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "lowdb": "^3.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1"
+  }
+}
