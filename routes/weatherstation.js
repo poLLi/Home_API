@@ -9,7 +9,10 @@ import { weatherDataValidation } from '../validation/validation.js';
 
 let router = express.Router();
 
-// POST testing
+//------------------------------------------------------------------
+// POST /ws/saveData
+// saving Weather Messurements in db
+//------------------------------------------------------------------
 router.post('/saveData', async (req, res) => {
     const err = weatherDataValidation(req.body);
     if (err) return res.status(500).send(err);
@@ -26,55 +29,66 @@ router.post('/saveData', async (req, res) => {
     await db
         .write()
         .then(() => {
-            console.log('done', saveData);
             res.status(200).send(saveData);
         })
         .catch((err) => {
-            console.log(err);
-            res.status(500).send('something went wrong!');
+            res.status(500).send(err);
         });
 });
 
+//------------------------------------------------------------------
+// GET /ws/getLastest
+// reciving Latest Weather Messurements
+//------------------------------------------------------------------
 router.get('/getLatest', async (req, res) => {
     const data = _.last(db.data.weather);
     if (!data) return res.status(500).send('error');
 
-    console.log(data);
     res.status(200).send(data);
 });
 
+//------------------------------------------------------------------
+// GET /ws/getLastDay
+// reciving Weather Messurements for layst 24h
+//------------------------------------------------------------------
 router.get('/getLastDay', async (req, res) => {
     const data = _.filter(db.data.weather, (p) => {
         return p.time > moment().subtract(1, 'day').format();
     });
 
-    console.log(data);
     res.status(200).send(data);
 });
 
+//------------------------------------------------------------------
+// GET /ws/getLastMonth
+// reciving Weather Messurements for layst month
+//------------------------------------------------------------------
 router.get('/getLastMonth', async (req, res) => {
     const data = _.filter(db.data.weather, (p) => {
         return p.time > moment().subtract(1, 'month').format();
     });
 
-    console.log(data);
     res.status(200).send(data);
 });
 
+//------------------------------------------------------------------
+// GET /ws/getLastYear
+// reciving Weather Messurements for layst year
+//------------------------------------------------------------------
 router.get('/getLastYear', async (req, res) => {
     const data = _.filter(db.data.weather, (p) => {
         return p.time > moment().subtract(1, 'year').format();
     });
 
-    console.log(data);
     res.status(200).send(data);
 });
 
+//------------------------------------------------------------------
+// GET /ws/getAllData
+// reciving all Weather Messurements
+//------------------------------------------------------------------
 router.get('/getAllData', async (req, res) => {
-    const data = db.data.weather;
-
-    console.log(data);
-    res.status(200).send(data);
+    res.status(200).send(db.data.weather);
 });
 
 export default router;

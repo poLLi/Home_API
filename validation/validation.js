@@ -1,11 +1,22 @@
 // Validation
 // ---------------------------------
 
-export function weatherDataValidation(data) {
-    if (!data.token) return '[ERROR] No token set';
-    if (!data.temp) return '[ERROR] got no temperature data';
-    if (!data.hum) return '[ERROR] got no humidity data';
-    if (!data.pres) return '[ERROR] got no pressure data';
+import Joi from 'joi';
 
-    return false;
+export function weatherDataValidation(data) {
+    const weatherSchema = Joi.object({
+        token: Joi.string().required(),
+        temp: Joi.number().required(),
+        hum: Joi.number().required(),
+        pres: Joi.number().required(),
+    });
+
+    const { error, value } = weatherSchema.validate(data);
+
+    if (error) {
+        console.log(`Validation error: ${error.details.map((x) => x.message).join(', ')}`);
+        return error;
+    } else {
+        return;
+    }
 }
