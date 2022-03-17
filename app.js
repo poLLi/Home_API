@@ -1,25 +1,35 @@
+// ---------------------------------------------------------------------------
+// Entry Point
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import logger from 'morgan';
+import morgan from 'morgan';
 
-import indexRouter from './routes/index.js';
-import wsRouter from './routes/weatherstation.js';
+import connectMongo from './database/dbConnect.js';
+
+import weatherRouter from './routes/weather.routes.js';
+import mainRouter from './routes/index.routes.js';
 
 const app = express();
-const port = 3000;
 
-// Setup App Middleware
-app.use(logger('dev'));
+// ---------------------------------------------------------------------------
+// Configure middleware
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-// Routing
-app.use('/', indexRouter);
-app.use('/ws', wsRouter);
+// ---------------------------------------------------------------------------
+// DB Connection
+connectMongo();
 
-// Start App
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
-});
+// ---------------------------------------------------------------------------
+// Routes
+app.use('/', mainRouter);
+app.use('/ws', weatherRouter);
+
+// ---------------------------------------------------------------------------
+// Start Server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`API running on Port: ${PORT}`));
