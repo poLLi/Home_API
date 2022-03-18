@@ -1,9 +1,6 @@
 #packaged-lock
 package-lock.json
 
-#database
-db.json
-
 # Logs
 logs
 *.log
