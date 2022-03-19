@@ -7,10 +7,11 @@ import moment from 'moment';
 const weatherController = {};
 
 weatherController.saveData = async (req, res, next) => {
+    if (req.body.token != 'SUPER_SECRET_TOKEN_HEHE') return res.status(500).send('Wrong Token you fuck!');
+
     await weatherModel
         .create({
             sensor: req.body.sensor,
-            token: req.body.token,
             temperatur: parseFloat(req.body.temp),
             humidity: parseFloat(req.body.hum),
             pressure: parseFloat(req.body.pres),

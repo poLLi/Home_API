@@ -10,22 +10,14 @@ const weatherSchema = new schema(
             type: String,
             required: true,
         },
-
-        token: {
-            type: String,
-            required: true,
-        },
-
         temperatur: {
             type: Number,
             required: true,
         },
-
         humidity: {
             type: Number,
             required: true,
         },
-
         pressure: {
             type: Number,
             required: true,
